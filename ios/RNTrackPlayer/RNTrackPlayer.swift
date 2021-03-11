@@ -393,9 +393,9 @@ public class RNTrackPlayer: RCTEventEmitter {
         print("Resetting player.")
         DispatchQueue.main.async {
             UIApplication.shared.endReceivingRemoteControlEvents();
+            player.stop()
+            resolve(NSNull())
         }
-        player.stop()
-        resolve(NSNull())
     }
     
     @objc(play:rejecter:)
