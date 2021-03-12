@@ -484,25 +484,25 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
             if(position == C.POSITION_UNSET) {
                 resultMap.putString("position", "Unknown position");
             } else {
-                resultMap.putInt("position", Utils.toSeconds(position));
+                resultMap.putDouble("position", Utils.toSeconds(position));
             }
 
             if(position == C.POSITION_UNSET) {
-                resultMap.putInt("bufferedPosition", Utils.toSeconds(0));
+                resultMap.putDouble("bufferedPosition", Utils.toSeconds(0));
             } else {
-                resultMap.putInt("bufferedPosition", Utils.toSeconds(position));
+                resultMap.putDouble("bufferedPosition", Utils.toSeconds(position));
             }
 
             if(duration == C.TIME_UNSET) {
-                resultMap.putInt("duration", Utils.toSeconds(0));
+                resultMap.putDouble("duration", Utils.toSeconds(0));
             } else {
-                resultMap.putInt("duration", Utils.toSeconds(duration));
+                resultMap.putDouble("duration", Utils.toSeconds(duration));
             }
 
             if (binder == null) {
-                resultMap.putString("state", PlaybackStateCompat.STATE_NONE);
+                resultMap.putInt("state", PlaybackStateCompat.STATE_NONE);
             } else {
-                resultMap.putString("state", callback.resolve(binder.getPlayback().getState()));
+                resultMap.putInt("state", binder.getPlayback().getState());
             }
 
             callback.resolve(resultMap);
