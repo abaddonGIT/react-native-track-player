@@ -389,12 +389,12 @@ public class RNTrackPlayer: RCTEventEmitter {
     }
     
     @objc(reset:rejecter:)
-    public func reset(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    public func reset(resolve: @escaping RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         print("Resetting player.")
-        player.stop()
-        resolve(NSNull())
+        player.stop();
         DispatchQueue.main.async {
             UIApplication.shared.endReceivingRemoteControlEvents();
+            resolve(NSNull())
         }
     }
     
@@ -493,6 +493,16 @@ public class RNTrackPlayer: RCTEventEmitter {
     @objc(getState:rejecter:)
     public func getState(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(player.playerState.rawValue)
+    }
+    
+    @objc(getPlayerState:rejecter:)
+    public func getPlayerState(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        resolve([
+            "position": player.currentTime,
+            "bufferedPosition": player.bufferedPosition,
+            "duration": player.duration,
+            "state": player.playerState.rawValue
+        ])
     }
     
     @objc(updateMetadataForTrack:properties:resolver:rejecter:)
