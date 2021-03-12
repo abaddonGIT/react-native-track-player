@@ -487,10 +487,10 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
                 resultMap.putDouble("position", Utils.toSeconds(position));
             }
 
-            if(position == C.POSITION_UNSET) {
+            if(bufferedPosition == C.POSITION_UNSET) {
                 resultMap.putDouble("bufferedPosition", Utils.toSeconds(0));
             } else {
-                resultMap.putDouble("bufferedPosition", Utils.toSeconds(position));
+                resultMap.putDouble("bufferedPosition", Utils.toSeconds(bufferedPosition));
             }
 
             if(duration == C.TIME_UNSET) {
