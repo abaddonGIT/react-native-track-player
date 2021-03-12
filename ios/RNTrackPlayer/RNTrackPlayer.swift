@@ -495,6 +495,16 @@ public class RNTrackPlayer: RCTEventEmitter {
         resolve(player.playerState.rawValue)
     }
     
+    @objc(getPlayerState:rejecter:)
+    public func getPlayerState(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        resolve([
+            "position": player.currentTime,
+            "bufferedPosition": player.bufferedPosition,
+            "duration": player.duration,
+            "state": player.playerState.rawValue
+        ])
+    }
+    
     @objc(updateMetadataForTrack:properties:resolver:rejecter:)
     public func updateMetadata(for trackId: String, properties: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         guard let track = player.items.first(where: { ($0 as! Track).id == trackId }) as? Track

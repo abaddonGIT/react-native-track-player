@@ -154,6 +154,12 @@ declare namespace RNTrackPlayer {
   export function getBufferedPosition(): Promise<number>;
   export function getState(): Promise<State>;
   export function getRate(): Promise<number>;
+  export function getPlayerState(): Promise<{
+    "position": number;
+    "bufferedPosition": number;
+    "duration": number;
+    "state": State;
+  }>
 
   // Components
 

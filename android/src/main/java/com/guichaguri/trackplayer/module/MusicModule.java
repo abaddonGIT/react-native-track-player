@@ -23,6 +23,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
+
 /**
  * @author Guichaguri
  */
@@ -466,5 +469,43 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         } else {
             waitForConnection(() -> callback.resolve(binder.getPlayback().getState()));
         }
+    }
+
+    @ReactMethod
+    public void getPlayerState(final Promise callback) {
+        WritableMap resultMap = Arguments.createMap();
+
+        waitForConnection(() -> {
+            long position = binder.getPlayback().getPosition();
+            long bufferedPosition = binder.getPlayback().getBufferedPosition();
+            long duration = binder.getPlayback().getDuration();
+
+
+            if(position == C.POSITION_UNSET) {
+                resultMap.putString("position", "Unknown position");
+            } else {
+                resultMap.putInt("position", Utils.toSeconds(position));
+            }
+
+            if(position == C.POSITION_UNSET) {
+                resultMap.putInt("bufferedPosition", Utils.toSeconds(0));
+            } else {
+                resultMap.putInt("bufferedPosition", Utils.toSeconds(position));
+            }
+
+            if(duration == C.TIME_UNSET) {
+                resultMap.putInt("duration", Utils.toSeconds(0));
+            } else {
+                resultMap.putInt("duration", Utils.toSeconds(duration));
+            }
+
+            if (binder == null) {
+                resultMap.putString("state", PlaybackStateCompat.STATE_NONE);
+            } else {
+                resultMap.putString("state", callback.resolve(binder.getPlayback().getState()));
+            }
+
+            callback.resolve(resultMap);
+        });
     }
 }
